@@ -522,6 +522,11 @@ if (is_null($init_function)) {
     echo "\n\n".'Unable to collect data from the server!'."\n\n";
 } else {
     $collected_data = array();
+
+    // get or include timestamp
+    $collected_data[] = time();
+
+    // set of commands to get system info
     $commands = array(
         'ifconfig eth0 | grep \'inet addr:\' | cut -d: -f2 | awk \'{ print $1}\'',
         'hostname',
@@ -543,8 +548,6 @@ if (is_null($init_function)) {
         }
         $collected_data[] = $output_data;
     }
-    // get or include timestamp
-    $collected_data[] = time();
     if (DEBUG_MODE == 1) {
         print_r($collected_data);
     }
