@@ -1,0 +1,5 @@
+#
+#   sample cron job
+#   this interval is every 3 minutes
+#
+*/3 * * * * php /root/porkymon.php > /dev/null 2>&1
