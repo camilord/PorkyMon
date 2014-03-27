@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['password'] = 'secret';
 $db['default']['database'] = 'porkymon';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
@@ -65,8 +65,8 @@ $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
 if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
-    $db['default']['username'] = 'porkymon';
-    $db['default']['password'] = '0Xi6NcEcozsf1boF3y3AnbUvLclPwdd0';
+    //$db['default']['username'] = 'porkymon';
+    //$db['default']['password'] = '0Xi6NcEcozsf1boF3y3AnbUvLclPwdd0';
 }
 
 /* End of file database.php */

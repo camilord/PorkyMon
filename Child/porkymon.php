@@ -10,7 +10,7 @@
 /*
  * Data receiver where the porkymon parent application resides.
  */
-define('PARENT_APP', 'porkymon.abcs.org.nz');
+define('PARENT_APP', 'porkymon.dev');
 // do not change this part...
 define('DATA_RECEIVER_URL', 'http://'.PARENT_APP.'/gateway/receive');
 
