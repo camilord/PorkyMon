@@ -15,6 +15,10 @@ class Crypt extends CI_Model
         $this->skey = $this->config->item('porkey');
     }
 
+    public function get_key() {
+        return $this->skey;
+    }
+
 
     public function safe_b64encode($string)
     {

@@ -11,14 +11,14 @@ class Gateway extends CI_Controller {
         $this->load->model('crypt');
         $this->load->model('logger');
 
-        $child_auth = unserialize($this->crypt->decode($this->input->post('child_auth')));
-        $child_data = unserialize($this->crypt->decode($this->input->post('child_data')));
+        $child_auth = unserialize($this->crypt->decode($this->input->get('child_auth')));
+        $child_data = unserialize($this->crypt->decode($this->input->get('child_data')));
 
         if (is_array($child_auth) && is_array($child_data)) {
             $this->logger->log(array('auth' => $child_auth, 'data' => $child_data));
         }
 
-        echo 'test: '.time();
+        echo json_encode(array('result' => 'test: '.time()));
     }
 }
 
