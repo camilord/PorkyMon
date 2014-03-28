@@ -359,11 +359,26 @@ $config['proxy_ips'] = '';
 
 
 /*
+ * system name...
+ */
+$config['system_name'] = 'PorkyMon Server Monitoring System';
+
+/*
+ * company name...
+ */
+$config['company_name'] = 'PorkyMon';
+
+/*
  * SALT KEY
  * must be the same with children scripts (child servers)
  */
 
 $config['porkey'] = 'LXlkM5iaxi69lOIcvi5iaQnNpCCsQnzN';
+
+/*
+ * Data Form Received Method
+ */
+$config['data_receiver_method'] = 'post';
 
 
 /* End of file config.php */

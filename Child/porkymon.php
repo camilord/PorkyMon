@@ -36,6 +36,10 @@ define('SECRET_KEY','F7PEb8krLJ2KiFbTeq4sg1rLBCnU8zBK');
  * note: this must be the same on the parent app...
  */
 define('PORKEY','LXlkM5iaxi69lOIcvi5iaQnNpCCsQnzN');
+/*
+ * method - form submit method, either post or get
+ */
+define('FORM_METHOD','post');
 
 /*
  * DEBUG MODE
@@ -92,6 +96,10 @@ class Crypt
 }
 
 
+/*
+ * https://github.com/php-curl-class/php-curl-class
+ * php-curl-class author: zachborboa
+ */
 class Curl
 {
     const USER_AGENT = 'PHP-Curl-Class/1.0 (+https://github.com/php-curl-class/php-curl-class)';
@@ -562,13 +570,29 @@ function submitData($data) {
     $curl->setOpt(CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1');
     $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 
-    $curl->get(DATA_RECEIVER_URL, array(
-        'child_auth' => $crypt->encode(serialize(array(CHILD_NAME, SECRET_KEY))),
-        'child_data' => $crypt->encode(serialize($data))
-    ));
-    $json_data = $curl->response;
+    if (FORM_METHOD == 'get') {
+        $curl->get(DATA_RECEIVER_URL, array(
+            'child_auth' => $crypt->encode(serialize(array(
+                    'child_server' => CHILD_NAME,
+                    'secret_key' => SECRET_KEY
+                ))),
+            'child_data' => $crypt->encode(serialize($data))
+        ));
+    } else {
+        $curl->post(DATA_RECEIVER_URL, array(
+            'child_auth' => $crypt->encode(serialize(array(
+                    'child_server' => CHILD_NAME,
+                    'secret_key' => SECRET_KEY
+                ))),
+            'child_data' => $crypt->encode(serialize($data))
+        ));
+    }
 
-    return json_decode($json_data, true);
+    if (is_object($curl->response)) {
+        return json_decode(json_encode($curl->response), true);
+    } else {
+        return json_decode($curl->response, true);
+    }
 }
 
 function system_function() {
@@ -595,20 +619,23 @@ if (is_null($init_function)) {
     $collected_data = array();
 
     // get or include timestamp
-    $collected_data[] = time();
+    $collected_data['time'] = time();
 
     // set of commands to get system info
     $commands = array(
-        'ifconfig eth0 | grep \'inet addr:\' | cut -d: -f2 | awk \'{ print $1}\'',
-        'hostname',
-        'free',
-        'df',
-        'uptime'
+        //'ip_address' => 'ifconfig eth0 | grep \'inet addr:\' | cut -d: -f2 | awk \'{ print $1}\'',
+        'ip' => 'ifconfig | grep \'inet addr:\' | grep -v \'127.0.0.1\' | cut -d: -f2 | awk \'{ print $1 }\'',
+        'hostname' => 'hostname',
+        'memory' => 'free',
+        'hdd' => 'df',
+        'uptime' => 'uptime',
+        'lsb' => 'cat /etc/*-release',
+        'kernel' => 'uname -mrs'
     );
 
     // execute commands...
     echo 'Executing command: '.$init_function.'()'."\n";
-    foreach ($commands as $cmd) {
+    foreach ($commands as $key => $cmd) {
         if (in_array($cmd, array('passthru','exec'))) {
             $init_function($cmd, $output_data);
         } else {
@@ -617,7 +644,7 @@ if (is_null($init_function)) {
             $output_data = ob_get_contents();
             ob_end_clean();
         }
-        $collected_data[] = $output_data;
+        $collected_data[$key] = $output_data;
     }
     if (DEBUG_MODE == 1) {
         print_r($collected_data);
