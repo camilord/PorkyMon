@@ -44,6 +44,7 @@ CREATE TABLE  IF NOT EXISTS servers (
   created datetime
 );
 ALTER TABLE servers ADD deleted enum('n','y') default 'n' AFTER ip;
+ALTER TABLE servers ADD port_check int(5) default 80 AFTER hostname;
 
 DROP TABLE IF EXISTS server_data;
 CREATE TABLE  IF NOT EXISTS server_data (

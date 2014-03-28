@@ -18,11 +18,11 @@ class Servers extends CI_Model {
      * author: Swooter
      * updated: camilo3rd
      */
-    public function is_online($domain){
+    public function is_online($domain, $port = 80){
         try {
             error_reporting(0);
             $starttime = microtime(true);
-            $file = fsockopen(trim($domain), 80, $errno, $errstr, 10);
+            $file = fsockopen(trim($domain), $port, $errno, $errstr, 10);
             $stoptime = microtime(true);
             //$status = 0;
             $status = -1;

@@ -472,7 +472,8 @@ class CaseInsensitiveArray implements ArrayAccess, Countable, Iterator
         } else {
             $index = array_search(strtolower($offset), array_keys(array_change_key_case($this->container, CASE_LOWER)));
             if (!($index === false)) {
-                unset($this->container[array_keys($this->container)[$index]]);
+                $arr_keys = array_keys($this->container);
+                unset($this->container[$arr_keys[$index]]);
             }
             $this->container[$offset] = $value;
         }

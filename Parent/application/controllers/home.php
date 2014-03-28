@@ -24,7 +24,7 @@ class Home extends CI_Controller {
                 $server['os'] = $this->porky->get_os();
                 $server['kernel'] = '';
                 $server['architecture'] = '';
-                $server['online'] = $this->servers->is_online($server['hostname']);
+                $server['online'] = $this->servers->is_online($server['hostname'], $server['port_check']);
                 $servers[$key] = $server;
             }
         }
@@ -79,7 +79,7 @@ class Home extends CI_Controller {
 
 	public function test()
 	{
-        $data = $this->xsql->query("SELECT * FROM server_data ORDER BY id DESC LIMIT 1", true);
+        $data = $this->xsql->query("SELECT * FROM server_data WHERE server_id = 2 ORDER BY id DESC LIMIT 3", true);
         $log_data = json_decode($data['data'], true);
         echo '<pre>';
         print_r($log_data);

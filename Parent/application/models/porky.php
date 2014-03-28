@@ -21,7 +21,13 @@ class porky extends CI_Model{
     public function get_os() {
         if (isset($this->_server_data['lsb'])) {
             if (preg_match("/debian/", strtolower($this->_server_data['lsb']))) {
-                return 'Debian';
+                //preg_match_all("~([\"''])([^\"'']+)\1~", $this->_server_data['lsb'], $rtn_data);
+                preg_match_all('/(\w+)\s*=\s*(["\'])((?:(?!\2).)*)\2/', $this->_server_data['lsb'], $result, PREG_SET_ORDER);
+                if (isset($result[0][3])) {
+                    return $result[0][3];
+                } else {
+                    return 'Debian';
+                }
             } else if (preg_match("/centos/", strtolower($this->_server_data['lsb']))) {
                 $tmp = explode("\n",$this->_server_data['lsb']);
                 return trim(str_replace('release','',$tmp[0]));
