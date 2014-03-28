@@ -83,30 +83,22 @@
             <h1 class="page-header">Dashboard</h1>
 
             <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="/public/images/child_server.png" />
-                    <h4>abcs.co.nz </h4>
-                    <span>CentOS 6.5</span><br />
-                    <span class="text-muted">123.45.67.89</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="/public/images/child_server.png" />
-                    <h4>abcs.co.nz </h4>
-                    <span>CentOS 6.5</span><br />
-                    <span class="text-muted">123.45.67.89</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="/public/images/child_server.png" />
-                    <h4>abcs.co.nz </h4>
-                    <span>CentOS 6.5</span><br />
-                    <span class="text-muted">123.45.67.89</span>
-                </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    <img src="/public/images/child_server.png" />
-                    <h4>abcs.co.nz </h4>
-                    <span>CentOS 6.5</span><br />
-                    <span class="text-muted">123.45.67.89</span>
-                </div>
+                <?php
+
+                if (is_array($servers) && count($servers) > 0) {
+                    foreach ($servers as $server) {
+                        echo '<div class="col-xs-6 col-sm-3 placeholder">
+                                <img src="/public/images/child_server_'.(($server['online'] >= 0) ? 'online' : 'offline').'.png" />
+                                <h4>'.$server['hostname'].'</h4>
+                                <span>'.$server['os'].'</span><br />
+                                <span class="text-muted">'.$server['ip'].'</span>
+                            </div>';
+                    }
+                } else {
+                    echo '<div class="alert alert-info text-left">There are no servers have been added yet.</div>';
+                }
+
+                ?>
             </div>
 
             <h2 class="sub-header">Recent Updates</h2>

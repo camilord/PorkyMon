@@ -43,6 +43,7 @@ CREATE TABLE  IF NOT EXISTS servers (
   ip varchar(64) default '127.0.0.1',
   created datetime
 );
+ALTER TABLE servers ADD deleted enum('n','y') default 'n' AFTER ip;
 
 DROP TABLE IF EXISTS server_data;
 CREATE TABLE  IF NOT EXISTS server_data (
