@@ -79,7 +79,7 @@ class Home extends CI_Controller {
 
 	public function test()
 	{
-        $data = $this->xsql->query("SELECT * FROM server_data WHERE server_id = 2 ORDER BY id DESC LIMIT 3", true);
+        $data = $this->xsql->query("SELECT * FROM server_data WHERE server_id = 1 ORDER BY id DESC LIMIT 3", true);
         $log_data = json_decode($data['data'], true);
         echo '<pre>';
         print_r($log_data);
