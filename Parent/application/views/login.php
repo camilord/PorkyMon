@@ -38,6 +38,11 @@
     <form class="form-signin" role="form" method="post" action="/home/authenticate">
         <div align="center"><img src="/public/images/porkymon_logo.png" /></div>
         <h2 class="form-signin-heading">Please sign in</h2>
+        <?php
+        if (strlen($this->session->flashdata('error_login')) > 1) {
+            echo '<div class="alert alert-danger">'.$this->session->flashdata('error_login').'</div>';
+        }
+        ?>
         <input type="hidden" name="auth_time" value="<?php echo (time() + 3600); ?>" />
         <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>

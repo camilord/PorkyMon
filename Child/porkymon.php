@@ -44,7 +44,7 @@ define('FORM_METHOD','post');
 /*
  * DEBUG MODE
  */
-define('DEBUG_MODE','1');
+define('DEBUG_MODE','0');
 
 
 // CLASSES =============================================================================================================
@@ -102,7 +102,7 @@ class Crypt
  */
 class Curl
 {
-    const USER_AGENT = 'PHP-Curl-Class/1.0 (+https://github.com/php-curl-class/php-curl-class)';
+    const USER_AGENT = 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/418 (KHTML, like Gecko) Safari/417.9.3';
 
     private $cookies = array();
     private $headers = array();
@@ -492,7 +492,8 @@ class CaseInsensitiveArray implements ArrayAccess, Countable, Iterator
     public function offsetGet($offset)
     {
         $index = array_search(strtolower($offset), array_keys(array_change_key_case($this->container, CASE_LOWER)));
-        return $index === false ? null : array_values($this->container)[$index];
+        $tmp_array = array_values($this->container);
+        return $index === false ? null : $tmp_array[$index];
     }
 
     public function count()
