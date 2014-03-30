@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('xsql');
+$autoload['model'] = array('xsql','secure');
 
 
 /* End of file autoload.php */

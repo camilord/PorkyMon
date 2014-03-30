@@ -102,7 +102,7 @@ class Crypt
  */
 class Curl
 {
-    const USER_AGENT = 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/418 (KHTML, like Gecko) Safari/417.9.3';
+    const USER_AGENT = 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/418 (KHTML, like Gecko) Safari/417.9.3 CAMILO3RD';
 
     private $cookies = array();
     private $headers = array();

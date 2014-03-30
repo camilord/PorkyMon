@@ -60,7 +60,7 @@ DROP TABLE IF EXISTS server_updates;
 CREATE TABLE  IF NOT EXISTS server_updates (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT primary key,
   server_id bigint(20) default 0,
-  report_type enum('error','warning','info') default 'info',
+  report_type enum('critical','error','warning','normal','info') default 'normal',
   report text,
   created datetime
 );

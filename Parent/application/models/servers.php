@@ -39,9 +39,9 @@ class Servers extends CI_Model {
     }
 
     public function load_servers() {
-        //$this->db->where('deleted','n');
+        $this->db->where('deleted','n');
         $this->db->order_by('hostname', 'asc');
-        $sql = $this->db->query("SELECT * FROM servers");
+        $sql = $this->db->get("servers");
         if ($sql->num_rows() > 0) {
             return $sql->result_array();
         } else {
@@ -53,11 +53,37 @@ class Servers extends CI_Model {
         if (is_array($where)) {
             $this->db->where($where);
         }
-        //$this->db->where('deleted','n');
+        $this->db->where('deleted','n');
         $this->db->order_by('hostname', 'asc');
-        $sql = $this->db->query("SELECT * FROM servers");
+        $sql = $this->db->get("servers");
         if ($sql->num_rows() > 0) {
             return $sql->row_array();
+        } else {
+            return null;
+        }
+    }
+
+    public function stats_data($where, $limit = null) {
+        if (is_array($where)) {
+            $this->db->where($where);
+        }
+        if (!is_null($limit)) {
+            if (is_array($limit)) {
+                if (isset($limit['start']) && isset($limit['limit'])) {
+                    $this->db->limit($limit['start'], $limit['limit']);
+                } else {
+                    $this->db->limit($limit[0], $limit[1]);
+                }
+            } else {
+                $this->db->limit($limit);
+            }
+        } else {
+            $this->db->limit(100);
+        }
+        $this->db->order_by('id', 'desc');
+        $sql = $this->db->get("server_data");
+        if ($sql->num_rows() > 0) {
+            return $sql->result_array();
         } else {
             return null;
         }

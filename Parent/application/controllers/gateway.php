@@ -5,7 +5,6 @@ class Gateway extends CI_Controller {
 	public function index()
 	{
         redirect('/','refresh');
-		//$this->load->view('welcome_message');
 	}
 
     public function receive() {
@@ -13,7 +12,7 @@ class Gateway extends CI_Controller {
         $this->load->model('logger');
         $this->load->model('auth');
 
-        if ($this->config->item('data_receiver_method') == 'get'){
+        if ($this->config->item('data_receiver_method') == 'get') {
             $child_auth = unserialize($this->crypt->decode($this->input->get('child_auth')));
             $child_data = unserialize($this->crypt->decode($this->input->get('child_data')));
         } else {

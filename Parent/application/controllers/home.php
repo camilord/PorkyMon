@@ -7,37 +7,12 @@ class Home extends CI_Controller {
         $this->load->model('auth');
     }
 
-    private function get_servers() {
-        $this->load->model('servers');
-        $this->load->model('porky');
-
-        $servers = $this->servers->load_servers();
-        if (is_array($servers) && count($servers) > 0) {
-            foreach($servers as $key => $server) {
-                $server['raw_data'] = $this->servers->server_last_log(array(
-                    'server_id' => $server['id']
-                ));
-
-                //print_r(json_decode($server['raw_data']['data'], true));
-                $this->porky->set(json_decode($server['raw_data']['data'], true));
-
-                $server['os'] = $this->porky->get_os();
-                $server['kernel'] = '';
-                $server['architecture'] = '';
-                $server['online'] = $this->servers->is_online($server['hostname'], $server['port_check']);
-                $servers[$key] = $server;
-            }
-        }
-        return $servers;
-    }
-
     public function index()
     {
         if ((int)$this->session->userdata('id') > 0) {
 
             $this->load->view('dashboard', array(
-                'page_title' => 'Dashboard',
-                'servers' => $this->get_servers()
+                'page_title' => 'Dashboard'
             ));
         } else {
             $this->load->view('login', array(
@@ -56,6 +31,12 @@ class Home extends CI_Controller {
         if ((int)$this->input->post('auth_time') >= time()) {
             if ($this->auth->verify($this->input->post('username'),$this->input->post('password'))) {
                 $this->session->set_userdata($this->auth->get());
+                $this->xsql->update('users', array(
+                    'last_login' => date('Y-m-d H:i:s'),
+                    'last_ip' => $_SERVER['REMOTE_ADDR']
+                ), array(
+                    'id' => $this->session->userdata('id')
+                ));
                 redirect('/?h='.md5(time()).'&t='.time(), 'refresh');
             } else {
                 $this->session->set_flashdata('error_login', 'Invalid Username or Password!');
