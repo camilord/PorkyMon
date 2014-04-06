@@ -42,11 +42,11 @@ class Ajax extends CI_Controller {
                 $this->porky->set(json_decode($server['raw_data']['data'], true));
 
                 $server['os'] = $this->porky->get_os();
-                $server['kernel'] = '';
-                $server['architecture'] = '';
+                //$server['kernel'] = $this->poyk->get_kernel();
+                //$server['architecture'] = $this->poyk->get_arc();
                 $server['online'] = $this->servers->is_online($server['hostname'], $server['port_check']);
-                $server['memory'] = $this->porky->get_memory();
-                $server['hdd'] = $this->porky->get_hdd();
+                //$server['memory'] = $this->porky->get_memory();
+                //$server['hdd'] = $this->porky->get_hdd();
                 $servers[$key] = $server;
             }
         }
@@ -66,8 +66,6 @@ class Ajax extends CI_Controller {
                                 <a href="/server/stats/'.$server['id'].'/'.md5(time()).'"><img src="/public/images/child_server_'.(($server['online'] >= 0) ? 'online' : 'offline').'.png" /></a>
                                 <h4>'.$server['hostname'].'</h4>
                                 <span>'.$server['os'].'</span><br />
-                                <!-- span>'.$this->porky->bytes2size($server['memory']['total']).'</span><br />
-                                <span>'.$this->porky->bytes2size($server['hdd']['total']).'</span><br / -->
                                 <span class="text-muted">'.$server['ip'].'</span>
                             </div>';
                     }
