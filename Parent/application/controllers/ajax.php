@@ -81,6 +81,7 @@ class Ajax extends CI_Controller {
 
     public function updates() {
         $this->load->model('updates');
+        $this->load->model('servers');
         $opt = $this->secure->clean($this->uri->segment(3), 'text_strict');
 
         switch($opt) {
@@ -96,12 +97,44 @@ class Ajax extends CI_Controller {
                 break;
         }
 
+        $level_notice = array(
+            'error' => 'danger',
+            'warning' => 'warning',
+            'info' => 'info'
+        );
+
         if (is_array($updates_data) && count($updates_data) > 0) {
-            echo '<table class="table">';
+            echo '<table class="table table-striped table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Server</th><th>Message</th><th>Resolved</th><th>SMS</th><th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
             foreach ($updates_data as $item) {
-                echo '<tr><td>'.$item['id'].'</td></tr>';
+                echo '<tr class="'.$level_notice[$item['report_type']].'">
+                        <td>'.$item['id'].'</td>
+                        <td>'.$this->servers->get_name($item['server_id']).'</td>
+                        <td>'.$item['report'].'</td>
+                        <td>'.(($item['resolved'] == 'y') ? 'Yes' : 'No').'</td>
+                        <td>'.(($item['sms'] == 'y') ? 'Yes' : 'No').'</td>
+                        <td width="100">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                      </tr>';
             }
-            echo '</table>';
+            echo '</tbody></table>';
         } else {
             echo '<div class="alert alert-info text-left">There are no server updates as of the moment...</div>';
         }

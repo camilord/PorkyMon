@@ -101,4 +101,15 @@ class Servers extends CI_Model {
             return null;
         }
     }
+
+    public function get_name($server_id) {
+        $this->db->where('id',$server_id);
+        $sql = $this->db->get("servers");
+        if ($sql->num_rows() > 0) {
+            $tmp = $sql->row_array();
+            return $tmp['hostname'];
+        } else {
+            return 'Unknown Server';
+        }
+    }
 } 
