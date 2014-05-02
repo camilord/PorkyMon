@@ -92,6 +92,13 @@ include(APPPATH.'views/modules/jscripts.php');
         }).done(function( response_data ) {
             $("div#servers-list").html(response_data);
         });
+        $.ajax({
+            type: "POST",
+            url: "/ajax/updates",
+            cache: false
+        }).done(function( response_data ) {
+            $("div#recent-updates").html(response_data);
+        });
     });
 </script>
 </body>

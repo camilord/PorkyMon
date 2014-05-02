@@ -43,7 +43,7 @@ include(APPPATH.'views/modules/topnav.php');
                     </tr>
                 </table>
             </div>
-            <h1 class="page-header">Statistics</h1>
+            <h1 class="page-header">Stats</h1>
             <div id="server-stats" class="row placeholders">
 
             </div>

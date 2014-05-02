@@ -10,7 +10,6 @@ class Home extends CI_Controller {
     public function index()
     {
         if ((int)$this->session->userdata('id') > 0) {
-
             $this->load->view('dashboard', array(
                 'page_title' => 'Dashboard'
             ));

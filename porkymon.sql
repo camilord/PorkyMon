@@ -34,6 +34,7 @@ CREATE TABLE  IF NOT EXISTS users (
   created datetime
 );
 INSERT INTO users (username,passcode,full_name,created) VALUES ('admin',MD5('secret'),'Administrator',NOW());
+ALTER TABLE users ADD mobile varchar(32) AFTER full_name;
 
 DROP TABLE IF EXISTS servers;
 CREATE TABLE  IF NOT EXISTS servers (
@@ -62,5 +63,15 @@ CREATE TABLE  IF NOT EXISTS server_updates (
   server_id bigint(20) default 0,
   report_type enum('critical','error','warning','normal','info') default 'normal',
   report text,
+  created datetime
+);
+ALTER TABLE server_updates ADD resolved enum('y','n') default 'n' AFTER report;
+ALTER TABLE server_updates ADD sms enum('y','n') default 'n' AFTER resolved;
+
+DROP TABLE IF EXISTS server_assigned_users;
+CREATE TABLE  IF NOT EXISTS server_assigned_users (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT primary key,
+  server_id bigint(20) default 0,
+  user_id bigint(20) default 0,
   created datetime
 );

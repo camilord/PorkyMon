@@ -78,6 +78,34 @@ class Ajax extends CI_Controller {
                 break;
         }
     }
+
+    public function updates() {
+        $this->load->model('updates');
+        $opt = $this->secure->clean($this->uri->segment(3), 'text_strict');
+
+        switch($opt) {
+            case 'all':
+                $updates_data = $this->updates->get_all();
+                break;
+            case 'sms':
+                $updates_data = $this->updates->get_sms();
+                break;
+            default:
+                // show recent unresolved updates...
+                $updates_data = $this->updates->get_recent();
+                break;
+        }
+
+        if (is_array($updates_data) && count($updates_data) > 0) {
+            echo '<table class="table">';
+            foreach ($updates_data as $item) {
+                echo '<tr><td>'.$item['id'].'</td></tr>';
+            }
+            echo '</table>';
+        } else {
+            echo '<div class="alert alert-info text-left">There are no server updates as of the moment...</div>';
+        }
+    }
 }
 
 /* End of file welcome.php */
